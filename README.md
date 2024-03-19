@@ -25,4 +25,6 @@ To configure producer-consumer relation, specify the same topic name for the bot
 
 -example_scraper.js: <strong>T</strong>his file is a common template for the web scrapers. As of now, this scrapes data of the world's top richest personalities from 'forbes.com'.
 
-Learn kafka: https://anhthi.netlify.app/docs/architecture/message_queue/kafka/
+Learn kafka: 
+1. https://anhthi.netlify.app/docs/architecture/message_queue/kafka/
+2. https://kafka.apache.org/documentation/#gettingStarted
