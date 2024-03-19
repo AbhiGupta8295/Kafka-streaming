@@ -1,0 +1,143 @@
+1. 
+Run the zookeeper:
+
+-> move to kafka extracted folder.
+-> move to bin folder (this has files with '.sh' extension supported by linux and    its distributions).
+-> move to windows folder (this has exactly same copies of file as in bin folder but with '.bat'    extension which is executable by windows OS).
+->execute command: .\zookeeper--server-start.bat ..\..\config\zookeeper.properties
+
+
+(All the below commands must be executed in the windows folder as in above)
+
+2.
+Run the kafka server: (separate terminal)
+
+-> execute command: .\kafka-server-start.bat ..\..\config\server.properties
+
+3.
+Create topic: (separate terminal)
+
+-> execute command: .\kafka-topics.bat --create --topic quickstart-events --bootstrap-server localhost:9092
+
+4.
+To view about the topic:
+
+-> execute command: .\kafka-topics.bat --describe --topic quickstart-events --bootstrap-server localhost:9092
+
+5.
+Start the producer server:
+
+-> execute command: .\kafka-console-producer.bat --topic quickstart-events --bootstrap-server localhost:9092
+-> write the messages and if want to stop use ctrl+c
+
+6.
+Start the consumer server:
+
+-> execute command: .\kafka-console-consumer.bat --topic quickstart-events --from-beginning --bootstrap-server localhost:9092
+-> it will start printing all the messages from the producer's side.
+
+
+
+**********TO read messages from external source or file**************
+
+{go to kafka/config/connect-file-source.properties, kafka/config/connect-file-source.properties and configure the topic name and source file name if needed to be changed }
+
+7.
+Setup the config file:
+
+-> Edit the config/connect-standalone.properties file, add or change the plugin.path=connect-file-3.7.0.jar
+
+8.
+Create the source text file 
+-> Create a test.txt file in bin/windows folder and add the contents to be consumed.
+
+9.
+
+-> Navigate to the bin/windows folder
+-> Execute the code: .\connect-standalone.bat ..\..\config\connect-standalone.properties ..\..\config\connect-file-source.properties ..\..\config\connect-file-sink.properties
+
+10.
+Start the consumer server to start consuming (separate terminal)
+
+-> Navigate to the bin/windows
+->Execute command: .\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic connect-test --from-beginning
+
+11. 
+Delete the tmp folder outside the kafka directory to reset the offset to 0.
+
+
+
+							***********Kafka Producer in Nodejs************
+Pre-requisites:
+
+-> Install:
+- npm install kafkajs
+- npm install chance (to generate random strings for producer)
+
+-> Start the zookeeper and kafka server through separate terminal before running the js code.
+//////////////////////////////////////////////////////////////////////////////////PRODUCER CODE:
+
+const { Kafka } = require('kafkajs')
+const Chance = require('chance');
+const chance = new Chance();
+
+const kafka = new Kafka({
+    clientId: 'my-producer',
+    brokers: ['localhost:9091', 'localhost:9092', 'localhost:9093']
+})
+
+const producer = kafka.producer();
+const topic = 'animals';
+
+const produceMessage = async (message) => {
+    const value = chance.animal();
+    console.log(value)
+    try {
+        await producer.send({
+            topic,
+            messages: [{ value},],
+        })
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+
+const run = async () => {
+    // Producing
+    await producer.connect()
+    setInterval(produceMessage, 1000)
+}
+run();
+
+
+
+////////////////////////////////////////////////////////////////////////////////CONSUMER CODE:
+const { Kafka } = require('kafkajs')
+
+const kafka = new Kafka({
+    clientId: 'my-consumer',
+    brokers: ['localhost:9091', 'localhost:9092', 'localhost:9093']
+})
+
+const consumer = kafka.consumer({ groupId: 'consumer-group' })
+const topic = 'animals'
+
+const run = async () => {
+    //consuming
+    await consumer.connect()
+    await consumer.subscribe({ topic })
+
+    await consumer.run({
+        eachMessage: async ({ topic, partition, message }) => {
+            console.log({
+                partition,
+                offset: message.offset,
+                value: message.value.toString()
+            })
+        }
+    })
+}
+run();
+
