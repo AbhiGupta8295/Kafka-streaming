@@ -3,9 +3,9 @@ This application uses Kafka to stream messages on the console from NSE India web
 
 <h3> To run the application, first start the zookeeper and kafka server in separate terminals. After this execute the standalone.bat script.</h3>
 
-# Before running the nseindia-producer.js file, edit the Cookie value. This can be retrieved by sending a GET request to the 'https://www.nseindia.com/market-data/live-equity-market' using POSTMAN.
+<h3>Before running the nseindia-producer.js file, edit the Cookie value. This can be retrieved by sending a GET request to the 'https://www.nseindia.com/market-data/live-equity-market' using POSTMAN.</h3>
 
-# to get step by step walkthrough click <a href="">here</a>
+<h3> to get step by step walkthrough click <a href="">here</a></h3>
 
 -nseindia-producer.js: <strong>T</strong>his file scrapes the nse-india website for any changes at every 15 seconds interval and stores the data in a test.csv file inside the folder where kafka resides.
 
