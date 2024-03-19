@@ -29,5 +29,5 @@ Learn kafka:
 1. https://anhthi.netlify.app/docs/architecture/message_queue/kafka/
 2. https://kafka.apache.org/documentation/#gettingStarted
 
-Installation: (Download and extract the binary file .tgz)
+Installation: (Download and extract the binary file .tgz): 
 https://kafka.apache.org/downloads
