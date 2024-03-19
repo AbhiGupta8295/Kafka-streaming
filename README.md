@@ -1,7 +1,7 @@
 # Kafka using node.js
 This application uses Kafka to stream messages on the console from NSE India website 'https://www.nseindia.com/market-data/live-equity-market'.
 
-# To run the application, first start the zookeeper and kafka server in separate terminals. After this execute the standalone.bat script.
+<h2> To run the application, first start the zookeeper and kafka server in separate terminals. After this execute the standalone.bat script.</h2>
 
 # Before running the nseindia-producer.js file, edit the Cookie value. This can be retrieved by sending a GET request to the 'https://www.nseindia.com/market-data/live-equity-market' using POSTMAN.
 
